@@ -1,23 +1,22 @@
-## Chloride Pussemi
-A script man, with no success to show.
+## ChlorideP
+... is a script man, with no success to show.
 ```python
 from re import compile as regex
 
 chloridep = {
   'name': 'ChlorideP',
   'fullname': 'Chloride Pussemi',
-  'aka': (  # won't use anymore.
-    regex(r'[Cc]a[co]+'),  # Caco, cacoco, cacococo...
-    'Casheen',
-    'ssks',
-    ...),
+  'aka': regex(r'[Cc]a(co)+'),  # Caco, cacoco, cacococo...
   'ican': [
     # 'PECMD', 'CMD',
     'Python', 'C',
-    'CSharp', 'PowerShell',],  # 'C++'],
+    'C#', 'PowerShell',],  # 'C++'],
   'goodat': ['Python',]
 }
 ```
 
-### See also
+## Chloride Lab
+... is a fictional organization, "researching on" something I'm intrigued.
+
+As for now, there is a departure mainly creating stuffs for *Red Alert 2: Yuri's Revenge*:
 [Chloride Lab (YR)](https://github.com/ClLab-YR)
