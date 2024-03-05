@@ -1,5 +1,5 @@
 ## ChlorideP
-... is a script man, with no success to show.
+... is a scripting man, with no success to show.
 ```python
 from re import compile as regex
 
@@ -7,11 +7,11 @@ chloridep = {
   'name': 'ChlorideP',
   'fullname': 'Chloride Pussemi',
   'aka': regex(r'[Cc]a(co)+'),  # Caco, cacoco, cacococo...
-  'ican': [
+  'i_can': [
     # 'PECMD', 'CMD',
     'Python', 'C',
     'C#', 'PowerShell',],  # 'C++'],
-  'goodat': ['Python',]
+  'good_at': ['Python',]
 }
 ```
 
