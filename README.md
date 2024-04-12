@@ -1,17 +1,17 @@
 ## ChlorideP
-... is a scripting man, with no success to show.
+... is an amateur coder man, with no success to show.
 ```python
 from re import compile as regex
 
 chloridep = {
   'name': 'ChlorideP',
   'fullname': 'Chloride Pussemi',
-  'aka': regex(r'[Cc]a(co)+'),  # Caco, cacoco, cacococo...
+  'aka': regex(r'[Cc]a(co)+'),  # Caco, cacoco, ... All now obsolete
   'i_can': [
     # 'PECMD', 'CMD',
-    'Python', 'C',
-    'C#', 'PowerShell',],  # 'C++'],
-  'good_at': ['Python',]
+    'Python', 'C', 'C++',
+    'C#', 'PowerShell',],
+  'good_at': ['Python',],
 }
 ```
 
