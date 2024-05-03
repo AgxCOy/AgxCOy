@@ -3,6 +3,8 @@
 事业余菜鸡~~代码~~脚本壬，至今没什么拿得出手的作品。
 
 现在这个圈名暂无专有的中文译名。~~不然叫我「氯17」好了。~~  
+
+And btw, although I does like VOCALOID, the `P` of Chloride**P** has nothing to do with it, which is from `Steve Pussemi` Pusheen comic instead.  
 以及，虽然我确实喜欢术力口，但很遗憾这个「P」跟术并没有什么关系——它取自 Pusheen 漫画里的 Steve Pussemi。  
 
 ```python
@@ -12,12 +14,13 @@ from re import compile as regex
 chloridep = {
   'name': 'ChlorideP',
   'fullname': 'Chloride Pussemi',
-  'aka': regex(r'[Cc]a(co)+'),  # Caco, cacoco, ... All now obsolete
+  # The following nickname(s) is/are just for compatibility, and won't use anymore.
+  'aka': regex(r'[Cc]a(co)+'),  # Caco, cacoco, ...
   'i_can': [
-    # 'PECMD', 'CMD', 
-    'Python', 'C', 'C++',
-    'C#', 'PowerShell',],
-  'good_at': ['Python',],
+    # 'PECMD', 'CMD Batch', 
+    'Python', 'C', 'C++', 'C#', 'PowerShell', 'MarkDown documentary',],
+  'good_at': [],
+  'hobby': "discover interests, and try to learn more about them",
 }
 ```
 
