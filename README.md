@@ -7,6 +7,11 @@
 And btw, although I does like VOCALOID, the `P` of Chloride**P** has nothing to do with it, which is from `Steve Pussemi` Pusheen comic instead.  
 以及，虽然我确实喜欢术力口，但很遗憾这个「P」跟术并没有什么关系——它取自 Pusheen 漫画里的 Steve Pussemi。  
 
+> ~~I hate snake case!~~  
+> ~~可能是因为我没正经写过项目、上手语言是 C# 的原因吧，我个人对 Python 的「小写函数、方法名」命名规范敬谢不敏。我宁肯用小驼峰。~~  
+> Anyway, I would still follow their code style when contributing to another project.  
+> 但无论如何，「客随主便」，别人的项目我还是会遵守他们的（或者公认的）代码规范。
+
 ```python
 # introduction.py
 from re import compile as regex
