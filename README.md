@@ -1,27 +1,19 @@
-## Kariko Lin @ChlorideP
+<h1 align="center">Kariko Lin @ChlorideP</h1>
+
 ... is an amateur ~~coder man~~ scriptor, with no success to show.  
 事业余臭写 ~~代码~~ 脚本的菜鸡，至今没什么拿得出手的作品。
 
-`Kariko Lin`, a partial transliteration of my real name, and the ID `ChlorideP` are both in used, as my online nickname.  
-Kariko Lin 是我一部分真名的音译转写，与 ChlorideP 这个 ID 一样，都是我目前在用的网络昵称。
+`Kariko Lin`, which is ONLY for formal signing online, as my Full Name, is partially my Real Name.  
+我的「全名」`Kariko Lin`仅作为咱虚拟形象（或者说 OC？）的正式署名，同时它也是我「真名」的一部分。
 
-> Kariko 即「雁子」。当然我真名并不是这个「雁」咯。  
-> 至于`ChlorideP`里的`P`或者说`Pussemi`，则是取自 [Pusheen 漫画：Celebkitties](https://pusheen.com/1033-2/)。
+`ChlorideP`, my Nick Name, is basically used around my online communication, which is one of my chemical element OCs.  
+我的「昵称」`ChlorideP`则用于咱在互联网上的各种交流场合，本身也是我拟定的化学元素自设之一。
 
-```python
-# introduction.py
-from re import compile as regex
+- English / Chinese OK - 英语或中文无障碍阅读
+- GitHub | [GitLab](https://gitlab.com/ChlorideP) - 其他平台同名（？）
+- Notes & Conclusions in my blog (`zh-CN` only) - 个人探索的笔记与结论会记录在[博客](https://chloridep.github.io)里
+- Familiar with **Python, C#, C, PowerShell** - 熟悉左边加粗的编程语言
+- Contact me by my [public E-mail](mailto:caclx@outlook.com) - 还请用我的[公开邮箱](mailto:caclx@outlook.com)与我联系
+- So that's all. - 然后就没啥了。你不会真以为我有什么「荣誉勋章」吧？
 
-chloridep = {
-  'name': 'ChlorideP',
-  'fullname': 'Kariko Lin',  # 'Chloride Pussemi',
-  # The following nickname(s) is/are just for compatibility, and won't use anymore.
-  'aka': regex(r'[Cc]a(co)+'),  # Caco, cacoco, ...
-  'i_can': [
-    # 'PECMD', 'CMD Batch', 
-    'Python', 'C', 'C++', 'C#', 'PowerShell',
-    'MarkDown', 'JavaScript', 'HTML'],
-  'good_at': [],
-  'hobby': "discover interests, and try to learn more about them",
-}
-```
+<p align="left"><img src="https://github-readme-stats.vercel.app/api/top-langs?username=ChlorideP&show_icons=true&locale=en&layout=compact" alt="ChlorideP" /></p>
