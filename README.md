@@ -3,7 +3,7 @@
 ... is an amateur ~~coder man~~ scriptor, with no success to show.  
 事业余臭写 ~~代码~~ 脚本的菜鸡，至今没什么拿得出手的作品。
 
-`Kariko Lin`, which is ONLY for formal signing online, as my Full Name, is partially my Real Name.  
+`Kariko Lin`, which is ONLY for formal signing online, as my Full Name, is also my partial Real Name.  
 我的「全名」`Kariko Lin`仅作为咱虚拟形象（或者说 OC？）的正式署名，同时它也是我「真名」的一部分。
 
 `ChlorideP`, my Nick Name, is basically used around my online communication, which is one of my chemical element OCs.  
