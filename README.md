@@ -1,19 +1,26 @@
-<h1 align="center">Kariko Lin @ChlorideP</h1>
+## Kariko Lin @ChlorideP
+氯喵喵喵喵喵喵什么都不会，什么都没有，什么都不想做。
 
-... is an amateur ~~coder man~~ scriptor, with no success to show.  
-事业余臭写 ~~代码~~ 脚本的菜鸡，至今没什么拿得出手的作品。
+会 Python 的那个我是假的——我只会就着红警的方言 INI 和 CSF 死磕`MutableMapping`；  
+会 C# 的那个我也是假的——我还是在死磕`System.Collections.Generic`；  
+会 C/C++ 的那个我还是假的——我接盘了 FA2sp，但什么建设性的功能、修复、扩展都不会写；  
+我所擅长的英语也并不能帮助我丝毫，何况「用进废退」，或许已经忘光了吧。
 
-`Kariko Lin`, which is ONLY for formal signing online, as my Full Name, is also my partial Real Name.  
-我的「全名」`Kariko Lin`仅作为咱虚拟形象（或者说 OC？）的正式署名，同时它也是我「真名」的一部分。
+我的名字本也不值一提，`Kariko Lin`不过是不好意思全盘吐露，只得使用拙劣的罗马音做的转写；  
+至于`ChlorideP`，也不过是一代目「Caco」这个身份惹了事端，从头做鬼罢了（氯嘛，氯气嘛）。
 
-`ChlorideP`, my Nick Name, is basically used around my online communication, which is one of my chemical element OCs.  
-我的「昵称」`ChlorideP`则用于咱在互联网上的各种交流场合，本身也是我拟定的化学元素自设之一。
+GitLab 同名账号记录着我最想做但终究没做完的历史——「脑死」，一个红警 2 战役向 mod；  
+我的博客则记录着我不知所谓的「实验笔记」和「结论」。不禁要问，是真科研呢还是真搞笑呢。
 
-- English / Chinese OK - 英语或中文无障碍阅读
-- GitHub | [GitLab](https://gitlab.com/ChlorideP) - 其他平台同名（？）
-- Notes & Conclusions in my blog (`zh-CN` only) - 个人探索的笔记与结论会记录在[博客](https://chloridep.github.io)里
-- Familiar with **Python, C#, C, PowerShell** - 熟悉左边加粗的编程语言
-- Contact me by my [public E-mail](mailto:caclx@outlook.com) - 还请用我的[公开邮箱](mailto:caclx@outlook.com)与我联系
-- So that's all. - 然后就没啥了。你不会真以为我有什么「荣誉勋章」吧？
+<!-- 至于「荣誉勋章」，大抵有吧，前面不也说「前世 Caco 惹了事端」嘛。  
+「拾人牙慧，毫无创见的剽窃者」——你也可以这么称呼。毕竟我实在没什么学习的才能，我只会把别人的东西抄来：
+- 15 年看「寒兮亦若雨」做 AE 频谱视频，我也跟风，直到去年还标榜什么「完美模仿」  
+  ——请问 AE 学了几成？不会只懂了个「音频频谱」吧？
+- 17 年想要做红警 mod，可设定还是经典《心灵终结 3》模板：萌军美欧日，苏军苏拉中，尤里三阵营。  
+  ——试问「创作」了几成？不会也是当「改摸小鬼」去吧？
+- 19-21 年做的「脑死」，南极冰架经典的 U 字造型——真的没有抄「极昼」吗？
+- 21 年秋混进同人群跟群友「密谋」什么语 C 机器人，结果别人被批斗一通，自己也免不了挨喷
+  ——连所谓 if-else 里随机字符串的空架子、连 Hello World 都能被拿去鉴抄，还在狡辩「没有抄」？
 
-<p align="left"><img src="https://github-readme-stats.vercel.app/api/top-langs?username=ChlorideP&show_icons=true&locale=en&layout=compact" alt="ChlorideP" /></p>
+如此，-->
+我还能说什么呢。
