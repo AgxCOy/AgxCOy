@@ -1,26 +1,12 @@
-## Kariko Lin @ChlorideP
-氯喵喵喵喵喵喵什么都不会，什么都没有，什么都不想做。
+## Lin @ChlorideP
+氯喵姓林。是水里灵活的氯离子，也可以~~被郊狼~~通上电变成空中灵活的氯气团。因为偏好原因，气团长得有点像猫猫。  
+My first name (of course in real world) is Lin. As for online, I'm ChlorideP, just like the $Cl^-$ in a cup of natural water.
 
-会 Python 的那个我是假的——我只会就着红警的方言 INI 和 CSF 死磕`MutableMapping`；  
-会 C# 的那个我也是假的——我还是在死磕`System.Collections.Generic`；  
-会 C/C++ 的那个我还是假的——我接盘了 FA2sp，但什么建设性的功能、修复、扩展都不会写；  
-我所擅长的英语也并不能帮助我丝毫，何况「用进废退」，或许已经忘光了吧。
+~~虽然有一点点想变得可爱，但~~重要的事情说三遍：**我不可爱，我不可爱，我不可爱**。  
+~~May there be some possibilities to be cute though,~~ I shall claim that, I AM NOT CUTE.
 
-我的名字本也不值一提，`Kariko Lin`不过是不好意思全盘吐露，只得装模作样地用罗马音作拙劣的转写；  
-至于`ChlorideP`，也不过是一代目「Caco」这个身份惹了事端，从头做鬼罢了（氯嘛，氯气嘛）。
+迷茫的……家里蹲。精神状态或许有如某些极端 mtf 一样……不可捉摸。但万幸不至于惹出什么事端。  
+At home without jobs now, with uncertain and worrying future. Sometimes I feel myself going crazy ... just like some troublesome guys probably being insane. Fortunately I haven't been making fxxking troubles annoying others ...
 
-GitLab 同名账号记录着我最想做但终究没做完的历史——「脑死」，一个红警 2 战役向 mod；  
-我的博客则记录着我不知所谓的「实验笔记」和「结论」。不禁要问，是真科研呢还是真搞笑呢。
-
-<!-- 至于「荣誉勋章」，大抵有吧，前面不也说「前世 Caco 惹了事端」嘛。  
-「拾人牙慧，毫无创见的剽窃者」——你也可以这么称呼。毕竟我实在没什么学习的才能，我只会把别人的东西抄来：
-- 15 年看「寒兮亦若雨」做 AE 频谱视频，我也跟风，直到去年还标榜什么「完美模仿」  
-  ——请问 AE 学了几成？不会只懂了个「音频频谱」吧？
-- 17 年想要做红警 mod，可设定还是经典《心灵终结 3》模板：萌军美欧日，苏军苏拉中，尤里三阵营。  
-  ——试问「创作」了几成？不会也是当「改摸小鬼」去吧？
-- 19-21 年做的「脑死」，南极冰架经典的 U 字造型——真的没有抄「极昼」吗？
-- 21 年秋混进同人群跟群友「密谋」什么语 C 机器人，结果别人被批斗一通，自己也免不了挨喷
-  ——连所谓 if-else 里随机字符串的空架子、连 Hello World 都能被拿去鉴抄，还在狡辩「没有抄」？
-
-如此，-->
-我还能说什么呢。
+会的技能全凭我当下「需要」什么。而我的需求……目前只来自「兴趣」——虽然没有一件事能够坚持到完成、能够结出硕果。
+What I can do is certainly bases on what I *need* right now, which barely comes from *interst*. Still, I feel sorry for wasting 9 years working nothing on, and making no things done.
