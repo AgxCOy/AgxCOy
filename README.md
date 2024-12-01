@@ -9,4 +9,4 @@ My first name (of course in real world) is Lin. As for online, I'm ChlorideP, ju
 At home without jobs now, with uncertain and worrying future. Sometimes I feel myself going crazy ... just like some troublesome guys probably being insane. Fortunately I haven't been making fxxking troubles annoying others ...
 
 会的技能全凭我当下「需要」什么。而我的需求……目前只来自「兴趣」——虽然没有一件事能够坚持到完成、能够结出硕果。  
-What I can do is certainly bases on what I *need* right now, which barely comes from *interst*. Still, I feel sorry for wasting 9 years working nothing on, and making no things done.
+What I can do is certainly bases on what I *need* right now, which barely comes from *interest*, currently. Still, I feel sorry for wasting 9 years working nothing on, and making no things done.
