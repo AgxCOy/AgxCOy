@@ -1,6 +1,6 @@
 ## NyaCl·氯喵
 非常简单粗暴的名字。原名 [@ChlorideP](https://github.com/ChlorideP) 现已变更为组织。  
-A name looks too young too simple. The original name `ChlorideP` now becomes a organization.
+A name looks too young too simple. The original name `ChlorideP` now becomes an organization.
 
 - 常用程序语言 (What lang I usually use): Python, C#, PowerShell, C++
 - 常用自然语言 (What lang I usually speak): zh_CN, en_US.
