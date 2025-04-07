@@ -3,7 +3,8 @@
 originally named `Caco`, `ChlorideP` or `NyaCl`, as a not kawaii amateur coder and RA2 mapper.
 
 > 对计算机编程的认识或许仅限 408、翁凯 C 语言公开课、各种程序语言文档。  
-> 虽然近几年 AI 很火，但还是更相信搜索引擎和自己的双手。~~很笨对吧？~~
+> 虽然近几年 AI 很火，但还是更愿意相信搜索引擎和自己的双手、本地的调试器和日志输出。~~很蠢对吧？~~  
+> 或许这就是“旧信息时代遗老”吧。
 
 - C# 跟 Python 更熟悉一点。偶尔接盘 C++。
   `C#` `Python` are prefered. sometimes `C++`.
