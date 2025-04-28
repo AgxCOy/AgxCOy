@@ -10,8 +10,8 @@ originally named `Caco`, `ChlorideP` or `NyaCl`, as a not kawaii amateur coder a
   `C#` `Python` are prefered. sometimes `C++`.
 - 简中和英语均可。粤语正字不熟（
   `zh_CN` `en_US` are well supported, if u'd like to contact me.
-- 只在 GitHub 这托管我搓的玩具。脚本之类的。
-  `GitHub` is the only platform to keep my toys, like scripts or whatever.
+- 现不再考虑在 GitHub 托管自建仓库。~~反正建了也搞不出几个名堂。~~
+  Won't push MY refs to GitHub anymore, due to GitHub SSH 403, and my inability.
 - 博客有留一些折腾记录。~~可能还有女装。~~
   Blogs (Simplified Chinese ONLY) may contains some of my notes. ~~or dress pictures.~~
 
