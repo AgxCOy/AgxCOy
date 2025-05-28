@@ -1,0 +1,64 @@
+name: 更新博客友链
+
+on:
+  issues:
+    types: 
+      - opened
+      - edited
+
+defaults:
+  run:
+    shell: pwsh
+jobs:
+  parse:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GITEA_SERVER_URL: https://git.liteyuki.org
+      GITEA_SERVER_TOKEN: ${{ secrets.GITEA_SERVER_TOKEN }}
+    steps:
+      - name: 检查 Issue
+        run: |
+          if (-not $env:GITEA_SERVER_TOKEN) {
+            echo "${{ github.repository }} 未配置访问Token"
+            exit 1
+          }
+          $tmp = gh issue --repo ${{ github.repository }} view ${{ github.event.issue.number }} --json labels | ConvertFrom-Json
+          $status = $tmp.labels | Where-Object 'name' -EQ 'blog-link'
+          if (-not $status) {
+            echo "${{ github.repository }}#${{ github.event.issue.number }} 未被标记为 blog-link"
+            exit 1
+          }
+      - name: 签出仓库
+        run: git clone "https://$env:GITEA_SERVER_TOKEN@git.liteyuki.org/AgxCOy/blogs.git"
+      - name: 安装 Gitea CLI
+        run: |
+          curl https://dl.gitea.com/tea/0.9.2/tea-0.9.2-linux-amd64 -o tea
+          chmod +x tea
+          ./tea login add --url $env:GITEA_SERVER_URL --token $env:GITEA_SERVER_TOKEN
+      - name: 获取 Issue 内容
+        working-directory: ./blogs
+        run: |
+          $json = gh issue --repo ${{ github.repository }} view ${{ github.event.issue.number }} --json body | ConvertFrom-Json
+          $data = [hashtable]@{}
+          [regex]::Replace($json.body, '<!--.+?-->', '', 'Singleline').Trim().Split("`n") | ForEach-Object {
+            $tmp = $_.Split(':', 2)
+            $data[$tmp[0].Trim()] = $tmp[1].Trim()
+          }
+          $json = "{
+            name: '$($data['站点名称'])',
+            icon: '$($data['站点图标'])',
+            desc: '$($data['站点简介'])',
+            link: '$($data['站点链接'])'
+          }"
+          $file = Get-Content 'src/friends.ts' -Raw
+          $file = $file.Replace('export default friends', "friends.push($json)
+          export const friends")
+          $file | Out-File 'src/friends.ts' -Encoding utf8
+          git checkout -b 'links/gh#${{ github.event.issue.number }}'
+          git add src/friends.ts
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "更新友链 $($data['站点名称']) (https://github.com/${{ github.repository }}/issues/${{ github.event.issue.number }})"
+          git push origin 'links/gh#${{ github.event.issue.number }}' --force
+          ../tea pr create --repo AgxCOy/blogs --assignees 'AgxCOy' --head 'links/gh#${{ github.event.issue.number }}' --title "更新友链 $($data['站点名称']) (https://github.com/${{ github.repository }}/issues/${{ github.event.issue.number }})"
