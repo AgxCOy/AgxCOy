@@ -1,0 +1,17 @@
+name: Issue Checker
+description: 检查 Issue 是否合规
+author: frg2089
+
+inputs:
+  token:
+    description: Github Token
+    required: true
+    default: ${{ github.token }}
+
+outputs:
+  links:
+    description: 博客的友链集合
+
+runs:
+  using: node20
+  main: dist/index.js
