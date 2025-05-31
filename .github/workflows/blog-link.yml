@@ -20,7 +20,7 @@ jobs:
       - name: 检查 Issue
         run: |
           if (-not $env:GITEA_SERVER_TOKEN) {
-            echo "${{ github.repository }} 未配置访问Token"
+            echo "${{ github.repository }} 未配置访问 Token"
             exit 1
           }
           $tmp = gh issue --repo ${{ github.repository }} view ${{ github.event.issue.number }} --json labels | ConvertFrom-Json
@@ -45,20 +45,18 @@ jobs:
             $tmp = $_.Split(':', 2)
             $data[$tmp[0].Trim()] = $tmp[1].Trim()
           }
-          $json = "{
-            name: '$($data['站点名称'])',
-            icon: '$($data['站点图标'])',
-            desc: '$($data['站点简介'])',
-            link: '$($data['站点链接'])'
-          }"
-          $file = Get-Content 'src/friends.ts' -Raw
-          $file = $file.Replace('export default friends', "friends.push($json)
-          export const friends")
-          $file | Out-File 'src/friends.ts' -Encoding utf8
+          [hashtable]$json = Get-Content 'src/friends.json' -Raw | ConvertFrom-Json
+          $json['#${{ github.event.issue.number }}'] = [hashtable]@{
+            'name' = $data['名称']
+            'icon' = $data['图标']
+            'desc' = $data['简介']
+            'link' = $data['链接']
+          }
+          $json | ConvertTo-Json | Out-File 'src/friends.json' -Encoding utf8
           git checkout -b 'links/gh#${{ github.event.issue.number }}'
-          git add src/friends.ts
+          git add src/friends.json
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git commit -m "更新友链 $($data['站点名称']) (https://github.com/${{ github.repository }}/issues/${{ github.event.issue.number }})"
+          git commit -m "更新友链 $($data['名称']) (https://github.com/${{ github.repository }}/issues/${{ github.event.issue.number }})"
           git push origin 'links/gh#${{ github.event.issue.number }}' --force
-          ../tea pr create --repo AgxCOy/blogs --assignees 'AgxCOy' --head 'links/gh#${{ github.event.issue.number }}' --title "更新友链 $($data['站点名称']) (https://github.com/${{ github.repository }}/issues/${{ github.event.issue.number }})"
+          ../tea pr create --repo AgxCOy/blogs --assignees 'AgxCOy' --head 'links/gh#${{ github.event.issue.number }}' --title "更新友链 $($data['名称']) (https://github.com/${{ github.repository }}/issues/${{ github.event.issue.number }})"
