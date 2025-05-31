@@ -2,7 +2,7 @@
 name: 申请添加博客友链 Friends Request
 about: 申请添加一条博客友链 To add a friend link into my blogs.
 title: "[Link] "
-labels: ''
+labels: blog-link
 assignees: AgxCOy
 
 ---
