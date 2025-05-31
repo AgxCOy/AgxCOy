@@ -45,8 +45,8 @@ jobs:
             $tmp = $_.Split(':', 2)
             $data[$tmp[0].Trim()] = $tmp[1].Trim()
           }
-          [hashtable]$json = Get-Content 'src/friends.json' -Raw | ConvertFrom-Json
-          $json['#${{ github.event.issue.number }}'] = [hashtable]@{
+          $json = Get-Content 'src/friends.json' -Raw | ConvertFrom-Json
+          $json | Add-Member -MemberType NoteProperty -Force -Name '#${{ github.event.issue.number }}' -value @{
             'name' = $data['名称']
             'icon' = $data['图标']
             'desc' = $data['简介']
