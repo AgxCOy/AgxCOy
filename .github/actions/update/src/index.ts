@@ -2,9 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { fetch } from 'cross-fetch'
 import * as _gitea from 'gitea-js'
-import * as cp from 'node:child_process'
 import * as fs from 'node:fs'
-import path from 'node:path'
 
 const target = core.getInput('target')
 const links = JSON.parse(core.getInput('links'))
@@ -35,39 +33,34 @@ const hero = async (action: () => Promise<void>) => {
   }
 }
 
-await hero(async () => {
-  const branch = `links/gh#${github.context.issue.number}`
-  const origin = `https://github.com/${github.context.issue.owner}/${github.context.issue.repo}/issues/${github.context.issue.number}`
-  const tokenURL = `${gitea.context.server.replace('//', `//${gitea.context.token}@`)}/${gitea.context.owner}/${gitea.context.repo}.git`
-  const options = {
-    cwd: path.dirname(target),
-  }
-  cp.execSync(`git checkout -b '${branch}'`, options)
-  cp.execSync(
-    `git config --local user.email "github-actions[bot]@users.noreply.github.com"`,
-    options,
-  )
-  cp.execSync(`git config --local user.name "github-actions[bot]"`, options)
+if (process.argv.includes('--pre')) {
+  await hero(async () => {
+    const branch = `links/gh#${github.context.issue.number}`
+    const origin = `https://github.com/${github.context.issue.owner}/${github.context.issue.repo}/issues/${github.context.issue.number}`
+    const tokenURL = `${gitea.context.server.replace('//', `//${gitea.context.token}@`)}/${gitea.context.owner}/${gitea.context.repo}.git`
 
-  const text = await fs.promises.readFile(target, 'utf-8')
-  const allLinks = JSON.parse(text)
-  const newLinks = Object.assign(allLinks, links)
-  await fs.promises.writeFile(target, JSON.stringify(newLinks, null, 2))
+    const text = await fs.promises.readFile(target, 'utf-8')
+    const allLinks = JSON.parse(text)
+    const newLinks = Object.assign(allLinks, links)
+    await fs.promises.writeFile(target, JSON.stringify(newLinks, null, 2))
 
-  const msg = Object.values(links as Record<string, any>)
-    .map(([_, v]) => `- ${v.name.replace('"', '\\"')}`)
-    .join('\r\n')
+    const msg = Object.values(links as Record<string, any>)
+      .map(([_, v]) => `- ${v.name.replace('"', '\\"')}`)
+      .join('\r\n')
 
-  cp.execSync(
-    `git commit -m "更新友链
+    core.setOutput('branch', branch)
+    core.setOutput('token-url', tokenURL)
+    core.setOutput(
+      'message',
+      `更新友链
 
 ${msg}
 
-详情(${origin})"`,
-    options,
-  )
-
-  cp.execSync(`git push '${tokenURL}' '${branch}' --force`, options)
+详情(${origin})`,
+    )
+  })
+} else {await hero(async () => {
+  const branch = `links/gh#${github.context.issue.number}`
 
   const res = await client.rest.issues.get({
     issue_number: github.context.issue.number,
@@ -92,3 +85,4 @@ ${msg}
     },
   )
 })
+}

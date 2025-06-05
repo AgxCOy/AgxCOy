@@ -54,9 +54,10 @@ jobs:
         id: update
         uses: ./.github/actions/update
         with:
-          gitea-server: ${{ env.GITEA_SERVER_URL }}
+          gitea-server: ${{ env.GITEA_SERVER_URL }} 
           gitea-token: ${{ env.GITEA_SERVER_TOKEN }}
           gitea-owner: ${{ env.GITEA_OWNER }}
           gitea-repo: ${{ env.GITEA_REPO }}
+          local-repo: ${{ steps.blog.outputs.BLOG_PATH }}
           target: ${{ steps.blog.outputs.BLOG_PATH }}/src/friends.json
           links: ${{ steps.check.outputs.links }}
