@@ -39,7 +39,7 @@ runs:
     - name: 修改文件
       id: modify
       shell: pwsh
-      run: node ./dist/index.js --pre
+      run: node ./.github/actions/update/dist/index.js --pre
     - name: 创建提交
       working-directory: ${{ steps.blog.outputs.BLOG_PATH }}
       shell: pwsh
@@ -51,4 +51,4 @@ runs:
       shell: node
       env:
         TARGET_PATH: ${{ steps.blog.outputs.BLOG_PATH }}/src/friends.json
-      run: node ./dist/index.js
+      run: node ./.github/actions/update/dist/index.js
