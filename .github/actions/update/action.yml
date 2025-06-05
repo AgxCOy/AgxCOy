@@ -38,10 +38,10 @@ runs:
         Write-Output "BLOG_PATH=$($PWD.Path)" >> $env:GITHUB_OUTPUT
     - name: 修改文件
       id: modify
-      shell: node
+      shell: pwsh
       env:
         TARGET_PATH: ${{ steps.blog.outputs.BLOG_PATH }}/src/friends.json
-      run: ./dist/index.js --pre
+      run: node ./dist/index.js --pre
     - name: 创建提交
       working-directory: ${{ steps.blog.outputs.BLOG_PATH }}
       shell: pwsh
@@ -51,4 +51,4 @@ runs:
         git push "${{ steps.modify.outputs.token-url }}" "${{ steps.modify.outputs.branch }}" --force
     - name: 创建 PR
       shell: node
-      run: ./dist/index.js
+      run: node ./dist/index.js

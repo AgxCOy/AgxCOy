@@ -39,11 +39,6 @@ if (process.argv.includes('--pre')) {
     const origin = `https://github.com/${github.context.issue.owner}/${github.context.issue.repo}/issues/${github.context.issue.number}`
     const tokenURL = `${gitea.context.server.replace('//', `//${gitea.context.token}@`)}/${gitea.context.owner}/${gitea.context.repo}.git`
 
-    const text = await fs.promises.readFile(target, 'utf-8')
-    const allLinks = JSON.parse(text)
-    const newLinks = Object.assign(allLinks, links)
-    await fs.promises.writeFile(target, JSON.stringify(newLinks, null, 2))
-
     const msg = Object.values(links as Record<string, any>)
       .map(([_, v]) => `- ${v.name.replace('"', '\\"')}`)
       .join('\r\n')
@@ -61,6 +56,11 @@ ${msg}
   })
 } else {await hero(async () => {
   const branch = `links/gh#${github.context.issue.number}`
+
+  const text = await fs.promises.readFile(target, 'utf-8')
+  const allLinks = JSON.parse(text)
+  const newLinks = Object.assign(allLinks, links)
+  await fs.promises.writeFile(target, JSON.stringify(newLinks, null, 2))
 
   const res = await client.rest.issues.get({
     issue_number: github.context.issue.number,
