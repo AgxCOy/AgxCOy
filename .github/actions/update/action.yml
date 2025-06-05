@@ -32,13 +32,13 @@ runs:
       run: |-
         git clone "${{ inputs.gitea-server }}/${{ inputs.gitea-owner }}/${{ inputs.gitea-repo }}.git"
         Set-Location blogs
-        git checkout -b links/gh#${{ github.event.issue.number }}
+        git checkout -b "links/gh#${{ github.event.issue.number }}"
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        echo "BLOG_PATH=$($PWD.Path)" >> $env:GITHUB_OUTPUT
+        Write-Output "BLOG_PATH=$($PWD.Path)" >> $env:GITHUB_OUTPUT
     - name: 修改文件
       id: modify
-      shell: node20
+      shell: node
       env:
         TARGET_PATH: ${{ steps.blog.outputs.BLOG_PATH }}/src/friends.json
       run: ./dist/index.js --pre
@@ -50,5 +50,5 @@ runs:
         git commit -m "${{ steps.modify.outputs.message }}"
         git push "${{ steps.modify.outputs.token-url }}" "${{ steps.modify.outputs.branch }}" --force
     - name: 创建 PR
-      shell: node20
+      shell: node
       run: ./dist/index.js
