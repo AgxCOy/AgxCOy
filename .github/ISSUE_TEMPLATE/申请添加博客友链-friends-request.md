@@ -8,27 +8,17 @@ assignees: AgxCOy
 ---
 
 <!--
-请像这样填写内容 You shall fill these blanks like this:
-
-```yaml blog-link
-# 名称 Name
-name: frg2089 岛风
-# 图标 Icon
-icon: https://avatars.githubusercontent.com/u/42184238
-# 描述 Description
-desc: 就只是一个常年不活跃的博客网站
-# 链接 Link
-link: https://blog.shimakaze.dev/
-```
+在填入自己的信息前，请*覆盖*或*删去*我留的示例信息。
+Before start, you should DELETE or just REPLACE the example below I wrote.
 -->
 
 ```yaml blog-link
-# 名称 Name
-name: 
-# 图标 Icon
-icon: 
-# 描述 Description
-desc: 
-# 链接 Link
-link: 
+# 名称 Your Name
+name: SilverAg.L 银
+# 头像 Your Avatar URI
+icon: https://github.com/AgxCOy.png
+# 自述、留言 Your Note 
+desc: 猫娘亚种，长了根魅魔尾巴。
+# 链接 Your Website URI
+link: https://agxcoy.shimakaze.org
 ```
