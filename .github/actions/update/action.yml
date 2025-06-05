@@ -6,15 +6,19 @@ inputs:
   gitea-server:
     description: Gitea Server URL
     required: true
+    default: ${{ env.GITEA_SERVER_URL }}
   gitea-token:
     description: Gitea Token
     required: true
+    default: ${{ env.GITEA_SERVER_TOKEN }}
   gitea-owner:
     description: Gitea Owner
     required: true
+    default: ${{ env.GITEA_OWNER }}
   gitea-repo:
     description: Gitea Repo
     required: true
+    default: ${{ env.GITEA_REPO }}
   github-token:
     description: Github Token
     required: true
@@ -22,9 +26,11 @@ inputs:
   target:
     description: 博客友链目标文件
     required: true
+    default: ${{ steps.blog.outputs.BLOG_PATH }}/src/friends.json
   links:
     description: 链接
     required: true
+    default: ${{ steps.check.outputs.links }}
 
 runs:
   using: node20
