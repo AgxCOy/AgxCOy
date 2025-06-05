@@ -1,5 +1,5 @@
 {
-  "name": "@agxcoy/check",
+  "name": "@agxcoy/update",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,11 +18,7 @@
   "license": "MIT",
   "packageManager": "pnpm@10.10.0",
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.1",
-    "cross-fetch": "^4.1.0",
-    "gitea-js": "^1.23.0",
-    "yaml": "^2.8.0"
+    "@actions/core": "^1.11.1"
   },
   "tsup": {
     "entry": [

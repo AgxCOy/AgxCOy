@@ -42,13 +42,39 @@ jobs:
       - name: 检查 Issue
         id: check
         uses: ./.github/actions/check
-
-      - name: 更新友链
-        id: update
-        uses: ./.github/actions/update
         with:
           gitea-server: ${{ env.GITEA_SERVER_URL }} 
           gitea-token: ${{ env.GITEA_SERVER_TOKEN }}
           gitea-owner: ${{ env.GITEA_OWNER }}
           gitea-repo: ${{ env.GITEA_REPO }}
+
+      - name: 签出博客仓库
+        id: blog
+        shell: pwsh
+        run: |-
+          git clone "${{ env.GITEA_SERVER_URL }}/${{ env.GITEA_OWNER }}/${{ env.GITEA_REPO }}.git"
+          Set-Location blogs
+          git checkout -b "${{ steps.check.outputs.branch }}"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          Write-Output "BLOG_PATH=$($PWD.Path)" >> $env:GITHUB_OUTPUT
+      - name: 更新友链
+        id: update
+        uses: ./.github/actions/update
+        with:
+          target: ${{ steps.blog.outputs.BLOG_PATH }}/src/friends.json
           links: ${{ steps.check.outputs.links }}
+      - name: 创建提交
+        working-directory: ${{ steps.blog.outputs.BLOG_PATH }}
+        shell: pwsh
+        run: |-
+          git add .
+          git commit -m "${{ steps.check.outputs.message }}"
+          git push "${{ steps.check.outputs.token-url }}" "${{ steps.check.outputs.branch }}" --force
+      - name: 创建合并请求
+        uses: ./.github/actions/pull
+        with:
+          gitea-server: ${{ env.GITEA_SERVER_URL }} 
+          gitea-token: ${{ env.GITEA_SERVER_TOKEN }}
+          gitea-owner: ${{ env.GITEA_OWNER }}
+          gitea-repo: ${{ env.GITEA_REPO }}

@@ -1,5 +1,5 @@
-name: Issue Checker
-description: 检查 Issue 是否合规
+name: 更新友链
+description: 更新博客友链
 author: frg2089
 
 inputs:
@@ -19,18 +19,6 @@ inputs:
     description: Github Token
     required: true
     default: ${{ github.token }}
-
-outputs:
-  links:
-    description: 博客的友链集合
-  branch:
-    description: 博客分支
-  token-url:
-    description: 博客带Token链接
-  message:
-    description: 博客提交消息
-  pr-data:
-    description: PR Body
 
 runs:
   using: node20

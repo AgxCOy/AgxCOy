@@ -3,52 +3,13 @@ description: 更新博客友链
 author: frg2089
 
 inputs:
-  gitea-server:
-    description: Gitea Server URL
+  target:
+    description: 要更新的文件路径
     required: true
-  gitea-token:
-    description: Gitea Token
-    required: true
-  gitea-owner:
-    description: Gitea Owner
-    required: true
-  gitea-repo:
-    description: Gitea Repo
-    required: true
-  github-token:
-    description: Github Token
-    required: true
-    default: ${{ github.token }}
   links:
     description: 链接
     required: true
 
 runs:
-  using: composite
-  steps:
-    - name: 签出博客仓库
-      id: blog
-      shell: pwsh
-      run: |-
-        git clone "${{ inputs.gitea-server }}/${{ inputs.gitea-owner }}/${{ inputs.gitea-repo }}.git"
-        Set-Location blogs
-        git checkout -b "links/gh#${{ github.event.issue.number }}"
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        Write-Output "BLOG_PATH=$($PWD.Path)" >> $env:GITHUB_OUTPUT
-    - name: 修改文件
-      id: modify
-      shell: pwsh
-      run: node ./.github/actions/update/dist/index.js --pre
-    - name: 创建提交
-      working-directory: ${{ steps.blog.outputs.BLOG_PATH }}
-      shell: pwsh
-      run: |-
-        git add .
-        git commit -m "${{ steps.modify.outputs.message }}"
-        git push "${{ steps.modify.outputs.token-url }}" "${{ steps.modify.outputs.branch }}" --force
-    - name: 创建 PR
-      shell: node
-      env:
-        TARGET_PATH: ${{ steps.blog.outputs.BLOG_PATH }}/src/friends.json
-      run: node ./.github/actions/update/dist/index.js
+  using: node20
+  main: dist/index.js

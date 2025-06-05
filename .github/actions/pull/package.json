@@ -1,5 +1,5 @@
 {
-  "name": "@agxcoy/check",
+  "name": "@agxcoy/pull",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -21,8 +21,7 @@
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.1",
     "cross-fetch": "^4.1.0",
-    "gitea-js": "^1.23.0",
-    "yaml": "^2.8.0"
+    "gitea-js": "^1.23.0"
   },
   "tsup": {
     "entry": [
