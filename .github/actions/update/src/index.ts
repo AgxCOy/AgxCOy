@@ -4,7 +4,7 @@ import { fetch } from 'cross-fetch'
 import * as _gitea from 'gitea-js'
 import * as fs from 'node:fs'
 
-const target = core.getInput('target')
+const target = process.env.TARGET_PATH!
 const links = JSON.parse(core.getInput('links'))
 
 const gitea = {

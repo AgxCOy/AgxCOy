@@ -15,16 +15,10 @@ inputs:
   gitea-repo:
     description: Gitea Repo
     required: true
-  local-repo:
-    description: 本地仓库位置
-    required: true
   github-token:
     description: Github Token
     required: true
     default: ${{ github.token }}
-  target:
-    description: 博客友链目标文件
-    required: true
   links:
     description: 链接
     required: true
@@ -32,22 +26,24 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: 签出分支
-      working-directory: ${{ inputs.local-repo }}
-      shell: pwsh
-      run: git checkout -b links/gh#${{ github.event.issue.number }}
-    - name: 设置提交人信息
-      working-directory: ${{ inputs.local-repo }}
+    - name: 签出博客仓库
+      id: blog
       shell: pwsh
       run: |-
+        git clone "${{ inputs.gitea-server }}/${{ inputs.gitea-owner }}/${{ inputs.gitea-repo }}.git"
+        Set-Location blogs
+        git checkout -b links/gh#${{ github.event.issue.number }}
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
+        echo "BLOG_PATH=$($PWD.Path)" >> $env:GITHUB_OUTPUT
     - name: 修改文件
       id: modify
       shell: node20
+      env:
+        TARGET_PATH: ${{ steps.blog.outputs.BLOG_PATH }}/src/friends.json
       run: ./dist/index.js --pre
     - name: 创建提交
-      working-directory: ${{ inputs.local-repo }}
+      working-directory: ${{ steps.blog.outputs.BLOG_PATH }}
       shell: pwsh
       run: |-
         git add .

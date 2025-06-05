@@ -21,13 +21,6 @@ jobs:
       GITEA_OWNER: AgxCOy
       GITEA_REPO: blogs
     steps:
-      - name: 签出博客仓库
-        id: blog
-        run: |-
-          git clone "$env:GITEA_SERVER_URL/$env:GITEA_OWNER/$env:GITEA_REPO.git"
-          Set-Location blogs
-          echo "BLOG_PATH=$($PWD.Path)" >> $env:GITHUB_OUTPUT
-
       - name: 签出仓库
         uses: actions/checkout@v4
 
@@ -58,6 +51,4 @@ jobs:
           gitea-token: ${{ env.GITEA_SERVER_TOKEN }}
           gitea-owner: ${{ env.GITEA_OWNER }}
           gitea-repo: ${{ env.GITEA_REPO }}
-          local-repo: ${{ steps.blog.outputs.BLOG_PATH }}
-          target: ${{ steps.blog.outputs.BLOG_PATH }}/src/friends.json
           links: ${{ steps.check.outputs.links }}
