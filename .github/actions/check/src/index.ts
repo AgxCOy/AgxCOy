@@ -71,7 +71,7 @@ await hero(async () => {
   const msg = `更新友链
 
 ${Object.values(links as Record<string, any>)
-  .map(([_, v]) => `- ${v.name.replace('"', '\\"')}`)
+  .map(v => `- ${v.name.replace('"', '\\"')}`)
   .join('\r\n')}
 
 详情(${origin})`
