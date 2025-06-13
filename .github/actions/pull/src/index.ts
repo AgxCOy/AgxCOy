@@ -1,5 +1,4 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
 import { fetch } from 'cross-fetch'
 import * as _gitea from 'gitea-js'
 
@@ -18,7 +17,6 @@ gitea.client = gitea.giteaApi(gitea.context.server, {
   customFetch: fetch,
 })
 
-const client = github.getOctokit(core.getInput('github-token'))
 const hero = async (action: () => Promise<void>) => {
   try {
     await action()
@@ -29,27 +27,9 @@ const hero = async (action: () => Promise<void>) => {
 }
 
 await hero(async () => {
-  const branch = `links/gh#${github.context.issue.number}`
-  const res = await client.rest.issues.get({
-    issue_number: github.context.issue.number,
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
-  })
-  if (res.status !== 200) core.setFailed(`Failed to get issue: ${res.status}`)
-  const issue = res.data
-
   gitea.client.repos.repoCreatePullRequest(
     gitea.context.owner,
     gitea.context.repo,
-    {
-      title: issue.title,
-      body: `${issue.body ?? undefined}
-      
-## Reference
-[原文地址](${origin})
-      `,
-      head: branch,
-      base: 'main',
-    },
+    JSON.parse(core.getInput('pr-data')),
   )
 })
