@@ -78,3 +78,4 @@ jobs:
           gitea-token: ${{ env.GITEA_SERVER_TOKEN }}
           gitea-owner: ${{ env.GITEA_OWNER }}
           gitea-repo: ${{ env.GITEA_REPO }}
+          pr-data: ${{ steps.check.outputs.pr-data }}
