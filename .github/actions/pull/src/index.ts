@@ -27,7 +27,7 @@ const hero = async (action: () => Promise<void>) => {
 }
 
 await hero(async () => {
-  gitea.client.repos.repoCreatePullRequest(
+  await gitea.client.repos.repoCreatePullRequest(
     gitea.context.owner,
     gitea.context.repo,
     JSON.parse(core.getInput('pr-data')),

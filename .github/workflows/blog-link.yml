@@ -5,8 +5,8 @@ on:
     types:
       - opened
       - edited
-      - closed
-      - reopened
+      # - closed
+      # - reopened
 
 defaults:
   run:
