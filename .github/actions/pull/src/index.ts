@@ -28,13 +28,18 @@ const hero = async (action: () => Promise<void>) => {
 
 await hero(async () => {
   const prdata = JSON.parse(core.getInput('pr-data'))
-  const existpr = await gitea.client.repos.repoGetPullRequestByBaseHead(
+  const existpr = await gitea.client.repos.repoListPullRequests(
     gitea.context.owner,
     gitea.context.repo,
-    prdata.base,
-    prdata.head,
+    {
+      state: 'open',
+    }
   )
-  console.log(existpr)
+
+  existpr.data.forEach(pr => {
+    console.log(`Existing PR: ${pr.number} (${pr.base?.ref} <- ${pr.head?.ref})`)
+  })
+
   if (false) {   // how to implement bro =.=
     core.info(`Branch "${prdata.head}" already has an open PR.`)
     return
