@@ -29,15 +29,19 @@ const hero = async (action: () => Promise<void>) => {
 await hero(async () => {
   const prdata = JSON.parse(core.getInput('pr-data'))
 
-  const existpr = await gitea.client.repos.repoListPullRequests(
-    gitea.context.owner,
-    gitea.context.repo,
-    {
-      state: 'open',
-    }
-  )
-  const conflicts = existpr.data.filter(pr => pr.head?.ref === prdata.head)
-  if (conflicts && conflicts.length > 0) {
+  let conflicts = null
+  try {
+    const existpr = await gitea.client.repos.repoListPullRequests(
+      gitea.context.owner,
+      gitea.context.repo,
+      {
+        state: 'open',
+      }
+    )
+    conflicts = existpr.data.filter(pr => pr.head?.ref === prdata.head).length > 0
+  } catch (error: any) { }
+
+  if (conflicts) {
     core.info(`Already exists a PR for this issue, skipping creation.`)
     return
   }
