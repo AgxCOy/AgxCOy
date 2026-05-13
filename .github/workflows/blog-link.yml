@@ -20,6 +20,7 @@ jobs:
       GITEA_SERVER_TOKEN: ${{ secrets.GITEA_SERVER_TOKEN }}
       GITEA_OWNER: AgxCOy
       GITEA_REPO: blogs
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
     steps:
       - name: 签出仓库
         uses: actions/checkout@v4
@@ -62,7 +63,7 @@ jobs:
         id: update
         uses: ./.github/actions/update
         with:
-          target: ${{ steps.blog.outputs.BLOG_PATH }}/src/friends.json
+          target: ${{ steps.blog.outputs.BLOG_PATH }}/public/${{ env.ISSUE_NUMBER }}-0.json
           links: ${{ steps.check.outputs.links }}
       - name: 创建提交
         working-directory: ${{ steps.blog.outputs.BLOG_PATH }}

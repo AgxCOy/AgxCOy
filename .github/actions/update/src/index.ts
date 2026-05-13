@@ -14,8 +14,10 @@ const hero = async (action: () => Promise<void>) => {
 }
 
 await hero(async () => {
-  const text = await fs.promises.readFile(target, 'utf-8')
-  const allLinks = JSON.parse(text)
-  const newLinks = Object.assign(allLinks, links)
-  await fs.promises.writeFile(target, JSON.stringify(newLinks, null, 2))
+  // const text = await fs.promises.readFile(target, 'utf-8')
+  // const allLinks = JSON.parse(text)
+  // const newLinks = Object.assign(allLinks, links)
+  // 懒得动博客的刀了，只取一个友链 block.
+  const mainlink = Object.values(links)[0]
+  await fs.promises.writeFile(target, JSON.stringify(mainlink, null, 2))
 })

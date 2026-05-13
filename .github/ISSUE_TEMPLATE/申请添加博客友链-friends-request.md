@@ -14,9 +14,9 @@ Before start, you should DELETE or just REPLACE the example below I wrote.
 
 ```yaml blog-link
 # 名称 Your Name
-name: SilverAg.L 银
+title: SilverAg.L 银
 # 头像 Your Avatar URI
-icon: https://github.com/AgxCOy.png
+img: https://github.com/AgxCOy.png
 # 自述、留言 Your Note 
 desc: 猫娘亚种，长了根魅魔尾巴。
 # 链接 Your Website URI
