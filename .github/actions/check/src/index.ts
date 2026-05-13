@@ -56,10 +56,12 @@ await hero(async () => {
   const origin = `https://github.com/${github.context.issue.owner}/${github.context.issue.repo}/issues/${github.context.issue.number}`
   const tokenURL = `${gitea.context.server.replace('//', `//${gitea.context.token}@`)}/${gitea.context.owner}/${gitea.context.repo}.git`
 
+  console.log(issue)
+
   const links = Object.fromEntries(
     [
       ...issue
-        .body!.replace(/<!--(.|\n)+?-->/g, '')
+        .body!  // .replace(/<!--(.|\n)+?-->/g, '')
         .matchAll(/```yaml blog-link\n(?<data>(.|\n)+?)```/g),
     ]
       .map(i => i.groups?.['data'])
