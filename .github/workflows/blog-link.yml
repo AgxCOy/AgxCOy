@@ -20,6 +20,7 @@ jobs:
       GITEA_SERVER_TOKEN: ${{ secrets.GITEA_SERVER_TOKEN }}
       GITEA_OWNER: AgxCOy
       GITEA_REPO: blogs
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
     steps:
       - name: 签出仓库
         uses: actions/checkout@v4
@@ -52,7 +53,7 @@ jobs:
         id: blog
         shell: pwsh
         run: |-
-          git clone "${{ env.GITEA_SERVER_URL }}/${{ env.GITEA_OWNER }}/${{ env.GITEA_REPO }}.git"
+          git clone "${{ env.GITEA_SERVER_URL }}/${{ env.GITEA_OWNER }}/${{ env.GITEA_REPO }}.git" --depth 1
           Set-Location blogs
           git checkout -b "${{ steps.check.outputs.branch }}"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -62,7 +63,7 @@ jobs:
         id: update
         uses: ./.github/actions/update
         with:
-          target: ${{ steps.blog.outputs.BLOG_PATH }}/src/friends.json
+          target: ${{ steps.blog.outputs.BLOG_PATH }}/public/${{ env.ISSUE_NUMBER }}-0.json
           links: ${{ steps.check.outputs.links }}
       - name: 创建提交
         working-directory: ${{ steps.blog.outputs.BLOG_PATH }}
