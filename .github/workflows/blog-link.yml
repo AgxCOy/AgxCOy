@@ -53,7 +53,7 @@ jobs:
         id: blog
         shell: pwsh
         run: |-
-          git clone "${{ env.GITEA_SERVER_URL }}/${{ env.GITEA_OWNER }}/${{ env.GITEA_REPO }}.git"
+          git clone "${{ env.GITEA_SERVER_URL }}/${{ env.GITEA_OWNER }}/${{ env.GITEA_REPO }}.git" --depth 1
           Set-Location blogs
           git checkout -b "${{ steps.check.outputs.branch }}"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
