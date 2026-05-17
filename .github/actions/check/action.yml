@@ -3,18 +3,6 @@ description: 检查 Issue 是否合规
 author: frg2089
 
 inputs:
-  gitea-server:
-    description: Gitea Server URL
-    required: true
-  gitea-token:
-    description: Gitea Token
-    required: true
-  gitea-owner:
-    description: Gitea Owner
-    required: true
-  gitea-repo:
-    description: Gitea Repo
-    required: true
   github-token:
     description: Github Token
     required: true
@@ -23,14 +11,8 @@ inputs:
 outputs:
   links:
     description: 博客的友链集合
-  branch:
-    description: 博客分支
-  token-url:
-    description: 博客带Token链接
   message:
     description: 博客提交消息
-  pr-data:
-    description: PR Body
 
 runs:
   using: node20

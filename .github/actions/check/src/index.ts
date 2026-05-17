@@ -1,24 +1,8 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { fetch } from 'cross-fetch'
-import * as _gitea from 'gitea-js'
-import * as YAML from 'yaml'
 
 const client = github.getOctokit(core.getInput('github-token'))
-const gitea = {
-  ..._gitea,
-  context: {
-    server: core.getInput('gitea-server'),
-    token: core.getInput('gitea-token'),
-    owner: core.getInput('gitea-owner'),
-    repo: core.getInput('gitea-repo'),
-  },
-  client: undefined as unknown as _gitea.Api<unknown>,
-}
-gitea.client = gitea.giteaApi(gitea.context.server, {
-  token: gitea.context.token,
-  customFetch: fetch,
-})
 
 const hero = async (action: () => Promise<void>) => {
   try {
@@ -52,47 +36,45 @@ const getIssue = async () => {
 
 await hero(async () => {
   const issue = await getIssue()
-  const branch = `links/gh#${github.context.issue.number}`
   const origin = `https://github.com/${github.context.issue.owner}/${github.context.issue.repo}/issues/${github.context.issue.number}`
-  const tokenURL = `${gitea.context.server.replace('//', `//${gitea.context.token}@`)}/${gitea.context.owner}/${gitea.context.repo}.git`
 
-  const links = Object.fromEntries(
-    [
-      ...issue
-        .body!.replace(/<!--(.|\n)+?-->/g, '')
-        .matchAll(/```yaml blog-link\n(?<data>(.|\n)+?)```/g),
-    ]
-      .map(i => i.groups?.['data'])
-      .filter(i => !!i)
-      .map(i => YAML.parse(i!))
-      .map((i, index) => [`#${github.context.issue.number}:${index}`, i]),
-  )
+  // console.log(issue.body)
+  const body = issue.body!.split("\n\n")
+  const links = {
+    title: body[1],
+    img: body[3],
+    desc: body[5],
+    link: body[7],
+    folder: body[9]?.trim(),
+  }
 
-  const msg = `更新友链
+  try {
+    await fetch(links.link)
+  }
+  catch {
+    // issue commenting
+    client.rest.issues.createComment({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      issue_number: github.context.issue.number,
+      body: `链接无法访问。请修改 Issue 正文。
+      
+> CI ERROR: Link is unable to reach. may need commit again.`,
+    })
+    core.setFailed('Link is unable to reach. may need commit again.')
+  }
 
-${Object.values(links as Record<string, any>)
-  .map(v => `- ${v.title.replace('"', '\\"')}`)
+  const commitMsg = `更新友链
+
+${Object.entries(links)
+  .map(([key, val]) => `- ${key}: ${val}`)
   .join('\r\n')}
 
 详情(${origin})`
 
-  const data = {
-    title: issue.title,
-    body: `${issue.body ?? undefined}
-    
-## Reference
-[原文地址](${origin})
-    `,
-    head: branch,
-    base: 'main',
-  }
-
   console.log(links)
-  console.log(msg)
+  console.log(commitMsg)
 
   core.setOutput('links', links)
-  core.setOutput('branch', branch)
-  core.setOutput('token-url', tokenURL)
-  core.setOutput('message', msg)
-  core.setOutput('pr-data', data)
+  core.setOutput('message', commitMsg)
 })

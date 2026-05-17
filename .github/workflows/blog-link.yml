@@ -8,19 +8,16 @@ on:
       # - closed
       # - reopened
 
-defaults:
-  run:
-    shell: pwsh
 jobs:
-  build:
+  validate_issue:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
-      GITEA_SERVER_URL: https://git.liteyuki.org
-      GITEA_SERVER_TOKEN: ${{ secrets.GITEA_SERVER_TOKEN }}
-      GITEA_OWNER: AgxCOy
-      GITEA_REPO: blogs
+      OWNER: AgxCOy
+      REPO: blogs
       ISSUE_NUMBER: ${{ github.event.issue.number }}
+    permissions:
+      issues: write
     steps:
       - name: 签出仓库
         uses: actions/checkout@v4
@@ -34,49 +31,47 @@ jobs:
           node-version: latest
           cache: pnpm
 
-      - name: 安装依赖
-        run: pnpm install
-
-      - name: 构建
-        run: pnpm -r build
+      - name: 搭建环境
+        run: pnpm install && pnpm -r build
 
       - name: 检查 Issue
         id: check
         uses: ./.github/actions/check
-        with:
-          gitea-server: ${{ env.GITEA_SERVER_URL }} 
-          gitea-token: ${{ env.GITEA_SERVER_TOKEN }}
-          gitea-owner: ${{ env.GITEA_OWNER }}
-          gitea-repo: ${{ env.GITEA_REPO }}
 
-      - name: 签出博客仓库
-        id: blog
+      - name: 递交友链信息
         shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.BLOGS_PAT }}
         run: |-
-          git clone "${{ env.GITEA_SERVER_URL }}/${{ env.GITEA_OWNER }}/${{ env.GITEA_REPO }}.git" --depth 1
-          Set-Location blogs
-          git checkout -b "${{ steps.check.outputs.branch }}"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          Write-Output "BLOG_PATH=$($PWD.Path)" >> $env:GITHUB_OUTPUT
-      - name: 更新友链
-        id: update
-        uses: ./.github/actions/update
+          $payload = @{
+            event_type     = "bloglink-request"
+            client_payload = @{
+                ISSUE_NUMBER = '${{ github.event.issue.number }}'
+                LINK         = '${{ steps.check.outputs.links }}'
+                MSG          = '${{ steps.check.outputs.message }}'
+            }
+          }
+          $payload | ConvertTo-Json -Depth 3 | gh api /repos/AgxCOy/blogs/dispatches --input -
+
+      - name: 评论 :)
+        if: success()
+        uses: actions/github-script@v7
         with:
-          target: ${{ steps.blog.outputs.BLOG_PATH }}/public/${{ env.ISSUE_NUMBER }}-0.json
-          links: ${{ steps.check.outputs.links }}
-      - name: 创建提交
-        working-directory: ${{ steps.blog.outputs.BLOG_PATH }}
-        shell: pwsh
-        run: |-
-          git add .
-          git commit -m "${{ steps.check.outputs.message }}"
-          git push "${{ steps.check.outputs.token-url }}" "${{ steps.check.outputs.branch }}" --force
-      - name: 创建合并请求
-        uses: ./.github/actions/pull
-        with:
-          gitea-server: ${{ env.GITEA_SERVER_URL }} 
-          gitea-token: ${{ env.GITEA_SERVER_TOKEN }}
-          gitea-owner: ${{ env.GITEA_OWNER }}
-          gitea-repo: ${{ env.GITEA_REPO }}
-          pr-data: ${{ steps.check.outputs.pr-data }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue_number = context.payload.issue.number;
+            const {owner, repo} = context.repo;
+            const body = "🎉 已创建合并请求！合并后将自动生效。";
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              { owner, repo, issue_number }
+            );
+            const botComment = comments.find(c => c.user.type === 'Bot' && c.body.includes('🎉'));
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({owner, repo, comment_id: botComment.id, body});
+              console.log(`已更新评论 #${botComment.id}`);
+            } else {
+              await github.rest.issues.createComment({owner, repo, issue_number, body});
+              console.log('已创建新评论');
+            }
