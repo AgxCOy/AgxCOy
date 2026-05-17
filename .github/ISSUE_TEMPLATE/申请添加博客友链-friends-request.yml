@@ -1,0 +1,47 @@
+name: 申请添加博客友链 Friends Request
+description: 申请添加一条博客友链 To add a friend link into my blogs.
+title: "[Link] "
+labels: blog-link
+assignees: AgxCOy
+
+body:
+  - type: input
+    id: title
+    attributes:
+      label: 名称 Your Name
+      description: 你的昵称（Nickname），或是网站名（Site Name）
+      placeholder: SilverAg.L 银
+    validations:
+      required: true
+  
+  - type: input
+    id: img
+    attributes:
+      label: 头像 Your Avatar URI
+      placeholder: https://github.com/AgxCOy.png
+    validations:
+      required: true
+  
+  - type: input
+    id: desc
+    attributes:
+      label: 自述、留言 Your Note
+      description: 有什么想说的嘛？Brief introduction?
+      placeholder: 猫娘亚种，长了根魅魔尾巴。
+    validations:
+      required: true
+  
+  - type: input
+    id: link
+    attributes:
+      label: 链接 Your Website URI
+      placeholder: https://agxcoy.shimakaze.org
+    validations:
+      required: true
+  
+  - type: input
+    id: folder
+    attributes:
+      label: 分组 Grouped As
+      description: 为便利起见，填入含英文的分组时*首字母务必保持小写*。Keep your value LOWER CASE plz!
+      placeholder: unable
