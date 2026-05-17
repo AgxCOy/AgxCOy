@@ -39,31 +39,35 @@ jobs:
         uses: ./.github/actions/check
 
       - name: 递交友链信息
-        run: |
-          curl -L -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2026-03-10" \
-            https://api.github.com/repos/AgxCOy/blogs/dispatches \
-            -d '{
-              "event_type": "bloglink-request",
-              "client_payload": {
-                "ISSUE_NUMBER": ${{ github.event.issue.number }},
-                "LINK": ${{ steps.check.outputs.links }},
-                "MSG": ${{ steps.check.outputs.message }},
-                "PR_OPTS": ${{ steps.check.outputs.pr-data }}
-              }
-            }'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.BLOGS_PAT }}
+        run: |-
+          $payload = @{
+            event_type     = "bloglink-request"
+            client_payload = @{
+                ISSUE_NUMBER = '${{ github.event.issue.number }}'
+                LINK         = '${{ steps.check.outputs.links }}'
+                MSG          = '${{ steps.check.outputs.message }}'
+                PR_OPTS      = '${{ steps.check.outputs.pr-data }}'
+            }
+          }
+          $payload | ConvertTo-Json -Depth 3 | gh api /repos/AgxCOy/blogs/dispatches --input -
 
-      - name: Comment Issue on PR Created
+      - name: 评论 :)
         if: success()
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.issue.number,
-              body: "🎉 已提交友链申请！可以去 [AgxCOy/blogs](https://github.com/AgxCOy/blogs/pulls) 看看进展喵。"
-            });
+            const owner = context.repo.owner
+            const repo = context.repo.repo
+            const body = "🎉 已提交友链申请！可以去 [AgxCOy/blogs](https://github.com/AgxCOy/blogs/pulls) 看看进展喵。"
+            const existing_comment = comments.find((c) => c.user.login === 'github-actions[bot]');
+            if (existing_comment) {
+              core.info(`Updating comment ${existing_comment.id}`);
+              await github.rest.issues.updateComment({repo, owner, comment_id: existing_comment.id, body});
+            } else {
+              core.info(`Creating a comment`);
+              await github.rest.issues.createComment({repo, owner, context.payload.issue.number, body});
+            }
