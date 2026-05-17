@@ -13,8 +13,6 @@ outputs:
     description: 博客的友链集合
   message:
     description: 博客提交消息
-  pr-data:
-    description: PR Body
 
 runs:
   using: node20

@@ -64,7 +64,7 @@ await hero(async () => {
     core.setFailed('Link is unable to reach. may need commit again.')
   }
 
-  const msg = `更新友链
+  const commitMsg = `更新友链
 
 ${Object.entries(links)
   .map(([key, val]) => `- ${key}: ${val}`)
@@ -72,20 +72,9 @@ ${Object.entries(links)
 
 详情(${origin})`
 
-  const data = {
-    title: `添加友链：${links.title}`,
-    body: `[${links.title}](${links.link})
-
-> ${links.desc}
-    
-## Reference
-[原文地址](${origin})`,
-  }
-
   console.log(links)
-  console.log(msg)
+  console.log(commitMsg)
 
   core.setOutput('links', links)
-  core.setOutput('message', msg)
-  core.setOutput('pr-data', data)
+  core.setOutput('message', commitMsg)
 })

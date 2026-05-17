@@ -49,7 +49,6 @@ jobs:
                 ISSUE_NUMBER = '${{ github.event.issue.number }}'
                 LINK         = '${{ steps.check.outputs.links }}'
                 MSG          = '${{ steps.check.outputs.message }}'
-                PR_OPTS      = '${{ steps.check.outputs.pr-data }}'
             }
           }
           $payload | ConvertTo-Json -Depth 3 | gh api /repos/AgxCOy/blogs/dispatches --input -
