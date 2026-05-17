@@ -9,9 +9,3 @@
 工具 tools: `git` `docker`  
 环境 IDE: VSCode  
 系统 OS: Arch Linux，Windows 11
-
-> 以下外链仅简中。The following links are provided with zh_CN only.
-
-- [Ag 的笔记本](https://agxcoy.shimakaze.org)（即博客）
-- [Ag 的垃圾站](https://git.liteyuki.org/AgxCOy)（如我先前所言，不打算再往 gh 上推送我主导的仓库，fork 除外）
-  - [我的 Arch Linux 配置集](https://git.liteyuki.org/AgxCOy/aglab.dotfiles)（非常原始的管理）
