@@ -60,14 +60,19 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const owner = context.repo.owner
-            const repo = context.repo.repo
-            const body = "🎉 已提交友链申请！可以去 [AgxCOy/blogs](https://github.com/AgxCOy/blogs/pulls) 看看进展喵。"
-            const existing_comment = comments.find((c) => c.user.login === 'github-actions[bot]');
-            if (existing_comment) {
-              core.info(`Updating comment ${existing_comment.id}`);
-              await github.rest.issues.updateComment({repo, owner, comment_id: existing_comment.id, body});
+            const issue_number = context.payload.issue.number;
+            const {owner, repo} = context.repo;
+            const body = "🎉 已创建合并请求！合并后将自动生效。";
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              { owner, repo, issue_number }
+            );
+            const botComment = comments.find(c => c.user.type === 'Bot' && c.body.includes('🎉'));
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({owner, repo, comment_id: botComment.id, body});
+              console.log(`已更新评论 #${botComment.id}`);
             } else {
-              core.info(`Creating a comment`);
-              await github.rest.issues.createComment({repo, owner, context.payload.issue.number, body});
+              await github.rest.issues.createComment({owner, repo, issue_number, body});
+              console.log('已创建新评论');
             }
