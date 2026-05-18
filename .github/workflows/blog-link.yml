@@ -5,73 +5,162 @@ on:
     types:
       - opened
       - edited
-      # - closed
-      # - reopened
+      - reopened
+      - closed
 
 jobs:
   validate_issue:
     runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'blog-link') && github.event.issue.state == 'open'
     env:
       GH_TOKEN: ${{ github.token }}
-      OWNER: AgxCOy
-      REPO: blogs
-      ISSUE_NUMBER: ${{ github.event.issue.number }}
     permissions:
       issues: write
     steps:
-      - name: 签出仓库
-        uses: actions/checkout@v4
+      - name: 解析元数据
+        id: parse
+        shell: pwsh
+        run: |-
+          function Format-Value {
+            param (
+              [Parameter(Mandatory)]
+              [string]
+              $Value
+            )
+            $Value -eq '_No response_' ? $null : $Value
+          }
 
-      - name: 设置 pnpm
-        uses: pnpm/action-setup@v4
+          $result = gh issue view ${{ github.event.issue.number }} `
+            --repo '${{ github.repository }}' `
+            --json body `
+          | ConvertFrom-Json
+          $result.body
 
-      - name: 设置 Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
-          cache: pnpm
+          $record = @{}
+          $lines = $result.body -split "`n"
 
-      - name: 搭建环境
-        run: pnpm install && pnpm -r build
+          $lines | ForEach-Object {
+            if ($PSItem.StartsWith('### ')) {
+              $currentKey = $PSItem.Substring(4)
+            }
+            elseif ($currentKey -and $PSItem) {
+              if ($record[$currentKey]) {
+                $record[$currentKey] += "`n"
+                $record[$currentKey] += $PSItem.Trim()
+              }
+              else {
+                $record[$currentKey] = $PSItem.Trim()
+              }
+            }
+          }
+          $record
 
-      - name: 检查 Issue
-        id: check
-        uses: ./.github/actions/check
+          $metadata = @{
+            title  = Format-Value -Value $record['名称 Your Name']
+            img    = Format-Value -Value $record['头像 Your Avatar URI']
+            desc   = Format-Value -Value $record['自述、留言 Your Note']
+            link   = Format-Value -Value $record['链接 Your Website URI']
+            folder = Format-Value -Value $record['分组 Grouped As']
+          }
+          if ($null -eq $metadata['folder']) {
+            $metadata.Remove('folder')
+          }
+
+          $json = $metadata | ConvertTo-Json -Compress
+          $json
+
+          "metadata=$json" | Out-File -LiteralPath $env:GITHUB_OUTPUT -Append
+      - name: 测试链接连通性
+        shell: pwsh
+        run: |-
+          try {
+            Invoke-WebRequest -Uri '${{ fromJson(steps.parse.outputs.metadata).link }}' -SslProtocol Tls13 -UseBasicParsing | Out-Null
+          }
+          catch {
+            $uri = [uri]'${{ fromJSON(steps.parse.outputs.metadata).link }}'
+            '## ❌ Failure' | Out-File -LiteralPath '.body'
+            '链接无法访问。可能需要再次提交。' | Out-File -LiteralPath '.body' -Append
+            'Link is unable to reach. may need commit again.' | Out-File -LiteralPath '.body' -Append
+            Test-NetConnection -ComputerName $uri.Host -Port $uri.Port | Out-File -LiteralPath '.body' -Append
+            
+            gh issue comment ${{ github.event.issue.number }} `
+              --repo '${{ github.repository }}' `
+              --edit-last `
+              --create-if-none `
+              --body-file '.body'
+          }
 
       - name: 递交友链信息
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.BLOGS_PAT }}
         run: |-
-          $payload = @{
-            event_type     = "bloglink-request"
-            client_payload = @{
-                ISSUE_NUMBER = '${{ github.event.issue.number }}'
-                LINK         = '${{ steps.check.outputs.links }}'
-                MSG          = '${{ steps.check.outputs.message }}'
-            }
-          }
-          $payload | ConvertTo-Json -Depth 3 | gh api /repos/AgxCOy/blogs/dispatches --input -
+          $workflow = gh workflow run 'handle-blog-links.yml' `
+            --repo '${{ vars.TARGET_REPO }}' `
+            --ref main `
+            --field 'SOURCE_REPO=${{ github.repository }}' `
+            --field 'METADATA=${{ steps.parse.outputs.metadata }}' `
+            --field 'ISSUE_NUMBER=${{ github.event.issue.number }}'
+          $workflow
+          $runid = [System.IO.Path]::GetFileName($workflow)
+          gh run watch $runid `
+            --repo '${{ vars.TARGET_REPO }}' `
+            --exit-status
 
       - name: 评论 :)
         if: success()
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const issue_number = context.payload.issue.number;
-            const {owner, repo} = context.repo;
-            const body = "🎉 已创建合并请求！合并后将自动生效。";
-            const comments = await github.paginate(
-              github.rest.issues.listComments,
-              { owner, repo, issue_number }
-            );
-            const botComment = comments.find(c => c.user.type === 'Bot' && c.body.includes('🎉'));
-            
-            if (botComment) {
-              await github.rest.issues.updateComment({owner, repo, comment_id: botComment.id, body});
-              console.log(`已更新评论 #${botComment.id}`);
-            } else {
-              await github.rest.issues.createComment({owner, repo, issue_number, body});
-              console.log('已创建新评论');
-            }
+        shell: pwsh
+        run: |-
+          '## ⏳ Waiting' | Out-File -LiteralPath '.body'
+          '已创建拉取请求！合并后将自动生效。' | Out-File -LiteralPath '.body' -Append
+          'Pull request created! It will take effect after merging.' | Out-File -LiteralPath '.body' -Append
+
+          gh issue comment ${{ github.event.issue.number }} `
+            --repo '${{ github.repository }}' `
+            --edit-last `
+            --create-if-none `
+            --body-file '.body'
+
+      - name: 评论 :(
+        if: failure()
+        shell: pwsh
+        run: |-
+          '## ❌ Failure' | Out-File -LiteralPath '.body'
+          '无法创建拉取请求！' | Out-File -LiteralPath '.body' -Append
+          'Cannot create Pull request!' | Out-File -LiteralPath '.body' -Append
+
+          gh issue comment ${{ github.event.issue.number }} `
+            --repo '${{ github.repository }}' `
+            --edit-last `
+            --create-if-none `
+            --body-file '.body'
+
+  merged:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'blog-link') && github.event.issue.state == 'closed' && github.event.issue.state_reason == 'completed'
+    permissions:
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: 合并拉取请求
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.BLOGS_PAT }}
+        run: |-
+          gh pr merge 'links/gh#${{ github.event.issue.number }}' `
+            --repo '${{ vars.TARGET_REPO }}' `
+            --delete-branch `
+            --squash
+      - name: 评论 :)
+        shell: pwsh
+        run: |-
+          '## 🎉 Success' | Out-File -LiteralPath '.body'
+          '已合并请求！' | Out-File -LiteralPath '.body' -Append
+          'Pull request merged!' | Out-File -LiteralPath '.body' -Append
+
+          gh issue comment ${{ github.event.issue.number }} `
+            --repo '${{ github.repository }}' `
+            --edit-last `
+            --create-if-none `
+            --body-file '.body'
