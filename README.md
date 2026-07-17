@@ -8,4 +8,4 @@
 语言 languages: 简体中文，English，Python，Shell Script，C#，C/C++  
 工具 tools: `git` `docker`  
 环境 IDE: VSCode  
-系统 OS: Arch Linux，Windows 11
+系统 OS: Arch Linux，Windows 10
